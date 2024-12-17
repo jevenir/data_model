@@ -1,0 +1,41 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table autoqa_ratings {
+  autoqa_review_id varchar
+  autoqa_rating_id varchar [primary key]
+  payment_id integer
+  team_id integer
+  payment_token_id integer
+  external_ticket_id integer
+  rating_category_id integer
+  rating_category_name varchar
+  rating_scale_score numeric
+  score numeric
+  reviewee_internal_id integer
+}
+
+Table autoqa_reviews {
+  autoqa_review_id varchar [primary key]
+  payment_id integer
+  payment_token_id integer
+  external_ticket_id integer
+  created_at timestamp
+  conversation_created_at timestamp
+  conversation_created_date date
+  team_id integer
+  reviewee_internal_id integer
+  updated_at timestamp
+}
+
+Table autoqa_root_cause {
+  autoqa_root_cause_id varchar [primary key]
+  autoqa_rating_id varchar
+  category varchar
+  count integer
+  root_cause varchar
+}
+
+Ref: autoqa_ratings.autoqa_review_id > autoqa_reviews.autoqa_review_id
+
+Ref: autoqa_ratings.autoqa_rating_id > autoqa_root_cause.autoqa_rating_id
